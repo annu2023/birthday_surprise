@@ -1,0 +1,471 @@
+/* General Body & Base Styles */
+body {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #fce4ec; /* Light pink background */
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: 'Pacifico', cursive;
+    color: #e91e63; /* Pink for titles */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.full-screen-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    background-color: #fff; /* White background for sections */
+    margin-bottom: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+    font-size: 3em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Countdown Loader */
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right top, #a2ccf2, #e0a2f2); /* Gradient background */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+.loader {
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-top: 8px solid #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#countdownMessage {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+.countdown-timer {
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5em;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Balloon Pop Screen */
+#balloonSection {
+    background: url('https://www.transparenttextures.com/patterns/cubes.png') repeat, linear-gradient(to top, #ffccbc, #ffecb3); /* Fun background */
+}
+
+#balloonContainer {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    height: 60vh;
+    border: 2px dashed #ff8a80;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+}
+
+.balloon {
+    position: absolute;
+    width: 80px;
+    height: 100px;
+    background-color: #ff8a80; /* Default balloon color */
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    cursor: pointer;
+    box-shadow: inset -10px -10px 0 rgba(0,0,0,0.1);
+    animation: float 8s ease-in-out infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    z-index: 10;
+}
+
+.balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #ff8a80; /* Neck of the balloon */
+    z-index: 9;
+}
+
+.balloon.popped {
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.balloon-message {
+    position: absolute;
+    background-color: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-size: 0.9em;
+    color: #e91e63;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: messageReveal 0.5s forwards;
+    z-index: 11;
+}
+
+@keyframes messageReveal {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Photo Carousel */
+#photoCarouselSection {
+    background-color: #f0f4f8; /* Light blue-gray */
+}
+
+.carousel-container {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+.carousel-caption {
+    text-align: center;
+    color: #555;
+}
+
+.carousel-caption h3 {
+    font-family: 'Quicksand', sans-serif;
+    color: #e91e63;
+    font-size: 1.8em;
+    margin-bottom: 5px;
+}
+
+.carousel-caption p {
+    font-size: 1.1em;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(233, 30, 99, 0.7); /* Pink with transparency */
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 1.5em;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    z-index: 20;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.carousel-button:hover {
+    background-color: #e91e63;
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+
+/* Flip Card for Message */
+#messageSection {
+    background: url('https://www.transparenttextures.com/patterns/always-grey.png') repeat, linear-gradient(to bottom, #ffe0b2, #ffccbc); /* Warm gradient */
+}
+
+.flip-card-container {
+    perspective: 1000px;
+    width: 90%;
+    max-width: 600px;
+    height: 450px;
+    margin: 30px auto;
+}
+
+.flip-card {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+    position: relative;
+}
+
+.flip-card-container.flipped .flip-card {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.flip-card-front {
+    background: linear-gradient(to bottom right, #ffccbc, #ffab91); /* Gradient for front */
+    color: white;
+    font-size: 1.8em;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.gift-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.flip-card-back {
+    background-color: #fff;
+    color: #333;
+    transform: rotateY(180deg);
+    padding: 30px;
+    overflow-y: auto; /* Enable scrolling for long messages */
+    text-align: left;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.message-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.message-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #444;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    font-size: 0.9em;
+    margin-top: 50px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2.2em;
+    }
+
+    #countdownMessage {
+        font-size: 1.2em;
+    }
+
+    .countdown-timer {
+        font-size: 1.8em;
+        padding: 10px 20px;
+    }
+
+    .balloon {
+        width: 60px;
+        height: 80px;
+    }
+
+    .balloon::after {
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 8px solid #ff8a80;
+    }
+
+    .carousel-button {
+        padding: 10px;
+        font-size: 1.2em;
+    }
+
+    .flip-card-front {
+        font-size: 1.4em;
+    }
+
+    .gift-icon {
+        font-size: 3em;
+    }
+
+    .flip-card-back {
+        padding: 20px;
+    }
+
+    .message-text {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.8em;
+    }
+
+    #countdownMessage {
+        font-size: 1em;
+    }
+
+    .countdown-timer {
+        font-size: 1.5em;
+        padding: 8px 15px;
+    }
+
+    .loader {
+        width: 50px;
+        height: 50px;
+    }
+
+    .balloon {
+        width: 50px;
+        height: 65px;
+        font-size: 0.8em;
+    }
+
+    .balloon-message {
+        font-size: 0.8em;
+        padding: 8px 12px;
+    }
+
+    .carousel-item img {
+        margin-bottom: 10px;
+    }
+
+    .carousel-caption h3 {
+        font-size: 1.4em;
+    }
+
+    .carousel-caption p {
+        font-size: 0.9em;
+    }
+
+    .flip-card-front h2 {
+        font-size: 1.2em;
+    }
+
+    .gift-icon {
+        font-size: 2.5em;
+    }
+
+    .flip-card-container {
+        height: 400px;
+    }
+}
