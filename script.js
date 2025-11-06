@@ -4,19 +4,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const countdownElement = document.getElementById('countdown');
     const countdownMessageElement = document.getElementById('countdownMessage');
 
-    // --- Flip Card Logic (Runs immediately) ---
-    const flipCardContainer = document.querySelector('.flip-card-container');
-    if (flipCardContainer) {
-        flipCardContainer.addEventListener('click', () => {
-            flipCardContainer.classList.toggle('flipped');
-        });
-    }
+    
+    // --------------------------------------------------------
 
     // Set the target date for November 30, 2025
     const targetDate = new Date('2025-11-06T00:00:00').getTime();
 
-    // --- Function to initialize Balloons and Carousel ---
-    // We call this function later to ensure content is ready.
+    const updateCountdown = () => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        // Calculate time units
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (distance < 0) {
+            clearInterval(countdownInterval);
+            countdownElement.innerHTML = "Happy Birthday!";
+            countdownMessageElement.textContent = "It's finally here! Get ready for your surprise!";
+            
+            setTimeout(() => {
+                loaderWrapper.style.opacity = '0';
+                loaderWrapper.style.visibility = 'hidden';
+                mainContent.classList.remove('hidden');
+                initMainContent(); // Initialize time-sensitive content
+            }, 1000); 
+        } else {
+            countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+    };
+
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown(); 
+
+
+    // Function to initialize main content features (Balloon and Carousel remain here)
     function initMainContent() {
         // --- Balloon Pop Logic ---
         const balloonContainer = document.getElementById('balloonContainer');
@@ -42,19 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
             balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
             
             // Random positioning
-            // Ensure balloons are placed within the container dimensions
             const containerWidth = balloonContainer.offsetWidth || 800; 
             const containerHeight = balloonContainer.offsetHeight || 480; 
             const leftPos = Math.random() * (containerWidth - 100); 
             const topPos = Math.random() * (containerHeight - 100);
             balloon.style.left = `${leftPos}px`;
             balloon.style.top = `${topPos}px`;
-            
+
             // Random animation delay and duration
             balloon.style.animationDelay = `${Math.random() * 5}s`;
             balloon.style.animationDuration = `${5 + Math.random() * 5}s`; 
 
-            // Assign a message
+            // Assign a message to the balloon
             const messageIndex = Math.floor(Math.random() * hiddenMessages.length);
             const message = hiddenMessages[messageIndex];
             balloon.dataset.message = message;
@@ -85,11 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
             balloonContainer.appendChild(balloon);
         }
 
-        // Create initial balloons (Run only if container exists)
-        if(balloonContainer) {
-            for (let i = 0; i < 15; i++) {
-                createBalloon();
-            }
+        // Create initial balloons
+        for (let i = 0; i < 15; i++) {
+            createBalloon();
         }
 
 
@@ -104,51 +125,15 @@ document.addEventListener('DOMContentLoaded', () => {
             carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
         }
 
-        if (prevButton && nextButton) {
-            prevButton.addEventListener('click', () => {
-                currentIndex = (currentIndex > 0) ? currentIndex - 1 : carouselItems.length - 1;
-                updateCarousel();
-            });
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : carouselItems.length - 1;
+            updateCarousel();
+        });
 
-            nextButton.addEventListener('click', () => {
-                currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
-                updateCarousel();
-            });
-        }
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
+            updateCarousel();
+        });
+		
     }
-    
-    // ------------------------------------------------------------------
-    // 🔥 CRUCIAL FIX: CALL initMainContent HERE to populate the page immediately!
-    initMainContent(); 
-    // ------------------------------------------------------------------
-
-
-    // --- Countdown Timer Logic ---
-    const updateCountdown = () => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        if (distance < 0) {
-            clearInterval(countdownInterval);
-            countdownElement.innerHTML = "Happy Birthday!";
-            countdownMessageElement.textContent = "It's finally here! Get ready for your surprise!";
-            
-            // Hide the loader and show main content when countdown is passed
-            setTimeout(() => {
-                loaderWrapper.style.opacity = '0';
-                loaderWrapper.style.visibility = 'hidden';
-                mainContent.classList.remove('hidden');
-            }, 1000); 
-        } else {
-            countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-        }
-    };
-
-    const countdownInterval = setInterval(updateCountdown, 1000);
-    updateCountdown(); 
 });
