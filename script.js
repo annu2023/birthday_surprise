@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const countdownMessageElement = document.getElementById('countdownMessage');
 
     // Set the target date for November 30, 2025
-    const targetDate = new Date('2025-11-30T00:00:00').getTime();
+    const targetDate = new Date('2025-11-06T00:00:00').getTime();
 
     const updateCountdown = () => {
         const now = new Date().getTime();
@@ -143,4 +143,5 @@ document.addEventListener('DOMContentLoaded', () => {
             flipCardContainer.classList.toggle('flipped');
         });
     }
+
 });
